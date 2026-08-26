@@ -1,0 +1,47 @@
+{
+  "site": {
+    "id": "flow-studio",
+    "name": "Flow Studio",
+    "legalName": "Flow Studio",
+    "tagline": "Small, focused Android apps that do one job well.",
+    "description": "Flow Studio is an indie studio building small, focused Android utility apps, starting with Money Flow, an offline-first personal finance tracker.",
+    "url": "",
+    "defaultTheme": "system",
+    "contact": {
+      "supportEmail": "",
+      "privacyEmail": ""
+    },
+    "social": {},
+    "branding": {
+      "logo": "assets/images/brand/wordmark.svg",
+      "favicon": "assets/images/apps/money-flow/icon.png",
+      "primaryColor": "#0f9d9a",
+      "accentColor": "#ff8500"
+    },
+    "nav": [
+      {
+        "label": "Apps",
+        "href": "apps.html"
+      },
+      {
+        "label": "Support",
+        "href": "support.html"
+      },
+      {
+        "label": "Privacy",
+        "href": "privacy.html"
+      },
+      {
+        "label": "Terms",
+        "href": "terms.html"
+      }
+    ],
+    "footer": {
+      "showPoweredBy": false
+    }
+  },
+  "apps": [
+    "money-flow",
+    "heal-flow"
+  ]
+}

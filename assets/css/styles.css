@@ -1,0 +1,1263 @@
+/* ==========================================================================
+   Flow Studio — Support / Policy Site Stylesheet
+   Plain HTML/CSS/JS, no framework, no build step, no external fonts.
+   Sections: Reset, Tokens, Base/Typography, Layout, Header/Nav, Footer,
+   Buttons, Policy/Article, TOC, Cards/Apps, Features, FAQ/Accordion,
+   Tables, Notices, States, Utilities, Responsive, Motion.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Reset
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+ul[class],
+ol[class] {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Native `hidden` attribute must always win — no conflicting display rule
+   should ever be applied to a `[hidden]` element elsewhere in this file. */
+[hidden] {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* Color — light (default) */
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --surface-elevated: #ffffff;
+  --text: #111827;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+
+  --brand-primary: #0f9d9a;
+  --brand-primary-hover: #0c7f7c;
+  --brand-accent: #ff8500;
+
+  /* Solid-fill CTA backgrounds (white text on top) — kept separate from
+     --brand-primary because that token is tuned bright for link/text contrast
+     against dark backgrounds, which is too light for white button text. */
+  --brand-solid: #0f9d9a;
+  --brand-solid-hover: #0c7f7c;
+
+  --success: #15803d;
+  --warning: #b45309;
+  --danger: #dc2626;
+
+  --shadow: 0 1px 3px rgba(0, 0, 0, .06);
+  --focus-ring: 0 0 0 3px rgba(15, 157, 154, .35);
+
+  /* Per-app accent — pages override via inline style on a wrapper element.
+     Falls back to the brand color when unset. */
+  --app-accent: var(--brand-primary);
+
+  /* Spacing scale (8px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 40px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Layout constants */
+  --header-height: 72px;
+  --content-max: 1100px;
+  --article-max: 760px;
+
+  /* Font */
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  color-scheme: light;
+}
+
+/* Dark — system preference, unless an explicit light choice overrides it */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1115;
+    --surface: #161a21;
+    --surface-elevated: #1c212a;
+    --text: #f3f4f6;
+    --text-muted: #a1a1aa;
+    --border: #2a303a;
+
+    --brand-primary: #2dd4cf;
+    --brand-primary-hover: #5eead4;
+    --brand-accent: #ffa733;
+
+    --brand-solid: #0c7f7c;
+    --brand-solid-hover: #0a6b69;
+
+    --shadow: 0 1px 3px rgba(0, 0, 0, .35);
+    --focus-ring: 0 0 0 3px rgba(45, 212, 207, .4);
+
+    color-scheme: dark;
+  }
+}
+
+/* Dark — explicit manual choice, wins over system in both directions */
+:root[data-theme="dark"] {
+  --bg: #0f1115;
+  --surface: #161a21;
+  --surface-elevated: #1c212a;
+  --text: #f3f4f6;
+  --text-muted: #a1a1aa;
+  --border: #2a303a;
+
+  --brand-primary: #2dd4cf;
+  --brand-primary-hover: #5eead4;
+  --brand-accent: #ffa733;
+
+  --brand-solid: #0c7f7c;
+  --brand-solid-hover: #0a6b69;
+
+  --shadow: 0 1px 3px rgba(0, 0, 0, .35);
+  --focus-ring: 0 0 0 3px rgba(45, 212, 207, .4);
+
+  color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   Base / Typography
+   -------------------------------------------------------------------------- */
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--text);
+}
+
+h1 {
+  font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem);
+}
+
+h2 {
+  font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.5rem);
+}
+
+h3 {
+  font-size: clamp(1.1rem, 1.02rem + 0.3vw, 1.25rem);
+}
+
+h4 {
+  font-size: 1.1rem;
+}
+
+p {
+  color: var(--text);
+}
+
+a {
+  color: var(--brand-primary);
+}
+
+a:hover {
+  color: var(--brand-primary-hover);
+}
+
+small {
+  font-size: 0.875rem;
+}
+
+code, pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+/* Visible focus state everywhere; never remove outline without replacing it */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Layout
+   -------------------------------------------------------------------------- */
+
+.site-shell {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 32px);
+}
+
+.site-main {
+  padding-block: var(--space-7);
+}
+
+@media (max-width: 640px) {
+  .site-main {
+    padding-block: var(--space-5);
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-3);
+  top: -100px;
+  background: var(--brand-solid);
+  color: #ffffff;
+  padding: var(--space-2) var(--space-3);
+  border-radius: 6px;
+  z-index: 1000;
+  transition: top 150ms ease;
+}
+
+.skip-link:focus {
+  top: var(--space-3);
+}
+
+/* --------------------------------------------------------------------------
+   Header / Nav
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--header-height);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.site-header .site-shell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--space-4);
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.site-logo img {
+  width: 190px;
+  height: 38px;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding-block: var(--space-2);
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: var(--text);
+}
+
+.nav-link[aria-current="page"] {
+  color: var(--brand-primary);
+  border-bottom-color: var(--brand-primary);
+  font-weight: 700;
+}
+
+/* When a page sets --app-accent, its own nav's active link picks it up */
+[data-app-accent] .nav-link[aria-current="page"] {
+  color: var(--app-accent);
+  border-bottom-color: var(--app-accent);
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.nav-toggle-icon,
+.nav-toggle-icon::before,
+.nav-toggle-icon::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  position: relative;
+}
+
+.nav-toggle-icon::before,
+.nav-toggle-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.nav-toggle-icon::before { top: -6px; }
+.nav-toggle-icon::after { top: 6px; }
+
+/* --------------------------------------------------------------------------
+   Theme switcher
+   -------------------------------------------------------------------------- */
+
+.theme-switcher {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2px;
+  background: var(--surface-elevated);
+  flex-shrink: 0;
+}
+
+.theme-switcher-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1) var(--space-2);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.theme-switcher-btn:hover {
+  color: var(--text);
+}
+
+.theme-switcher-btn[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--brand-primary);
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding-block: var(--space-7);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+}
+
+@media (max-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+}
+
+.footer-col-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-3);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.footer-links a:hover {
+  color: var(--brand-primary);
+}
+
+.footer-bottom {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.6rem 1.1rem;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border: 1px solid transparent;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.btn-primary {
+  background: var(--brand-solid);
+  color: #ffffff;
+  border-color: var(--brand-solid);
+}
+
+.btn-primary:hover {
+  background: var(--brand-solid-hover);
+  border-color: var(--brand-solid-hover);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+.btn-app {
+  background: var(--app-accent, var(--brand-solid));
+  color: #ffffff;
+  border-color: var(--app-accent, var(--brand-solid));
+}
+
+.btn-app:hover {
+  filter: brightness(0.92);
+  color: #ffffff;
+}
+
+/* Per-app accent colors are arbitrary brand values (set from JSON, not tuned per
+   theme) and can be too light for white button text against a dark surface —
+   darken the fill rather than assume every app's accent is dark enough on its own. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .btn-app {
+    filter: brightness(0.85);
+  }
+
+  :root:not([data-theme="light"]) .btn-app:hover {
+    filter: brightness(0.78);
+  }
+}
+
+:root[data-theme="dark"] .btn-app {
+  filter: brightness(0.85);
+}
+
+:root[data-theme="dark"] .btn-app:hover {
+  filter: brightness(0.78);
+}
+
+.mailto-cta {
+  /* Contact Support CTA — visually a primary button */
+}
+
+/* --------------------------------------------------------------------------
+   Policy / Article
+   -------------------------------------------------------------------------- */
+
+article.policy {
+  max-width: var(--article-max);
+  line-height: 1.7;
+}
+
+article.policy h2 {
+  scroll-margin-top: calc(var(--header-height) + var(--space-3));
+  margin-top: var(--space-7);
+  margin-bottom: var(--space-3);
+}
+
+article.policy h3 {
+  scroll-margin-top: calc(var(--header-height) + var(--space-3));
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-2);
+}
+
+article.policy p,
+article.policy ul,
+article.policy ol {
+  margin-bottom: var(--space-3);
+}
+
+article.policy ul,
+article.policy ol {
+  padding-left: 1.25rem;
+}
+
+article.policy ul {
+  list-style: disc;
+}
+
+article.policy ol {
+  list-style: decimal;
+}
+
+article.policy li {
+  margin-bottom: var(--space-1);
+}
+
+article.policy h2:first-child,
+article.policy h3:first-child {
+  margin-top: 0;
+}
+
+.breadcrumbs {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.breadcrumbs a {
+  color: var(--text-muted);
+}
+
+.breadcrumbs a:hover {
+  color: var(--brand-primary);
+}
+
+.breadcrumbs .sep {
+  margin-inline: var(--space-1);
+  color: var(--border);
+}
+
+/* --------------------------------------------------------------------------
+   Table of contents
+   -------------------------------------------------------------------------- */
+
+.policy-toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: var(--space-3) var(--space-4);
+}
+
+.policy-toc-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.policy-toc ol,
+.policy-toc ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.policy-toc a {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.policy-toc a:hover {
+  color: var(--brand-primary);
+}
+
+.policy-toc a[aria-current="true"] {
+  color: var(--brand-primary);
+  font-weight: 700;
+}
+
+@media (min-width: 1024px) {
+  .policy-toc {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-3));
+  }
+}
+
+/* Mobile: collapsible <details> version */
+.policy-toc[data-collapsible] summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 767px) {
+  .policy-toc summary {
+    list-style: none;
+  }
+
+  .policy-toc summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .policy-toc summary::after {
+    content: "+";
+    float: right;
+  }
+
+  .policy-toc[open] summary::after {
+    content: "\2212";
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Cards / Apps
+   -------------------------------------------------------------------------- */
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+.app-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 150ms ease;
+}
+
+.app-card:hover {
+  border-color: var(--brand-primary);
+}
+
+.app-card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.app-card-title {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.app-card-desc {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+.app-card-links {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  font-size: 0.875rem;
+}
+
+.app-icon,
+.avatar-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.app-icon--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.app-accent-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--app-accent, var(--brand-primary));
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Status badges
+   -------------------------------------------------------------------------- */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.status-badge--published {
+  color: var(--success);
+  border-color: var(--success);
+  background: transparent;
+}
+
+.status-badge--beta {
+  color: var(--warning);
+  border-color: var(--warning);
+  background: transparent;
+}
+
+.status-badge--in-development {
+  color: var(--text-muted);
+  border-color: var(--border);
+  background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Features
+   -------------------------------------------------------------------------- */
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-5) var(--space-4);
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+}
+
+.feature-item-icon {
+  color: var(--brand-primary);
+  margin-bottom: var(--space-1);
+}
+
+.feature-item-title {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.feature-item-desc {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+/* --------------------------------------------------------------------------
+   FAQ / Accordion
+   -------------------------------------------------------------------------- */
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) 0;
+  font-weight: 600;
+  color: var(--text);
+  gap: var(--space-3);
+}
+
+.faq-question::after {
+  content: "+";
+  display: inline-block;
+  flex-shrink: 0;
+  font-weight: 400;
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  transition: transform 180ms ease;
+}
+
+.faq-question[aria-expanded="true"]::after {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 200ms ease, opacity 200ms ease;
+  opacity: 0;
+}
+
+.faq-answer:not([hidden]) {
+  max-height: 600px;
+  opacity: 1;
+  padding-bottom: var(--space-3);
+}
+
+.faq-answer p {
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Tables
+   -------------------------------------------------------------------------- */
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+table.data-table {
+  width: 100%;
+  min-width: 480px;
+  font-size: 0.9375rem;
+}
+
+table.data-table th,
+table.data-table td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+table.data-table th {
+  background: var(--surface);
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+table.data-table td {
+  color: var(--text-muted);
+}
+
+table.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* --------------------------------------------------------------------------
+   Notices
+   -------------------------------------------------------------------------- */
+
+.notice {
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--border);
+  background: var(--surface);
+  border-radius: 4px;
+  font-size: 0.9375rem;
+}
+
+.notice p:last-child {
+  margin-bottom: 0;
+}
+
+.notice--info {
+  border-left-color: var(--brand-primary);
+}
+
+.notice--warning {
+  border-left-color: var(--warning);
+}
+
+/* --------------------------------------------------------------------------
+   States (empty / error)
+   -------------------------------------------------------------------------- */
+
+.empty-state,
+.error-state {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--space-8) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.empty-state-title,
+.error-state-title {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Utilities
+   -------------------------------------------------------------------------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.overflow-anywhere {
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive — mobile nav
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .site-nav {
+    position: static;
+    flex: 0;
+  }
+
+  .nav-menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    visibility: hidden;
+    transition: max-height 180ms ease, opacity 180ms ease;
+  }
+
+  .nav-menu[data-open="true"] {
+    max-height: 480px;
+    opacity: 1;
+    visibility: visible;
+    overflow-y: auto;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .nav-menu .nav-link {
+    padding: var(--space-3) clamp(16px, 4vw, 32px);
+    border-bottom: 1px solid var(--border);
+    border-left: 2px solid transparent;
+  }
+
+  .nav-menu .nav-link[aria-current="page"] {
+    border-bottom-color: var(--border);
+    border-left-color: var(--brand-primary);
+  }
+}
+
+/* Logo + hamburger + theme switcher must all fit on one row even on the narrowest
+   supported width (320px) — shrink them rather than let the header overflow. */
+@media (max-width: 480px) {
+  .site-header .site-shell {
+    gap: var(--space-2);
+  }
+
+  .site-logo img {
+    width: 150px;
+    height: 30px;
+  }
+
+  .theme-switcher-btn {
+    padding: 2px 6px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .site-header .site-shell {
+    gap: var(--space-1);
+  }
+
+  .site-logo img {
+    width: 120px;
+    height: 24px;
+  }
+
+  .nav-toggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .theme-switcher-btn {
+    padding: 1px 4px;
+    font-size: 0.65rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .policy-layout {
+    display: grid;
+    grid-template-columns: minmax(0, var(--article-max)) 220px;
+    gap: var(--space-6);
+    align-items: start;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Hero (home / app overview pages)
+   -------------------------------------------------------------------------- */
+
+.hero {
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-6);
+  max-width: var(--article-max);
+}
+
+.hero-icon-wrap {
+  margin-bottom: var(--space-4);
+}
+
+.hero .app-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+}
+
+.hero h1 {
+  margin-bottom: var(--space-2);
+}
+
+.hero-tagline {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.hero-description {
+  margin-bottom: var(--space-4);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* --------------------------------------------------------------------------
+   Small text patterns reused across policy / app-overview pages
+   -------------------------------------------------------------------------- */
+
+.eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.policy-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.policy-summary {
+  color: var(--text-muted);
+  margin-bottom: var(--space-5);
+}
+
+.app-icon--inline {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  vertical-align: -6px;
+  margin-right: var(--space-1);
+}
+
+.link-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.link-list > li {
+  list-style: none;
+}
+
+.support-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.support-header .app-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+}
+
+.footer-brand {
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-1);
+}
+
+/* Disclosure marker: hide the native triangle everywhere, not just on mobile,
+   since the sticky desktop TOC is always rendered `open` and doesn't need one. */
+.policy-toc summary {
+  list-style: none;
+}
+
+.policy-toc summary::-webkit-details-marker {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .nav-menu,
+  .faq-answer,
+  .faq-question::after,
+  .skip-link {
+    transition: none !important;
+  }
+}

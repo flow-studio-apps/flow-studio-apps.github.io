@@ -1,0 +1,409 @@
+{
+  "id": "heal-flow",
+  "name": "HealFlow",
+  "shortName": "HealFlow",
+  "packageName": "com.appname.test",
+  "status": "in-development",
+  "tagline": "An offline-first personal health record for your phone.",
+  "shortDescription": "Log health records, medications, symptoms, and documents locally on your device, with no account required.",
+  "description": "HealFlow is an offline-first personal health record for Android and iOS. It lets you log health measurements such as blood pressure, weight, blood sugar, heart rate, temperature, and height, record symptoms and medications, and attach documents like lab reports, prescriptions, scans, and vaccination records. There is no login or account system, so you can start using it right away, and every record stays on your device unless you choose to back it up or share it yourself. See the Privacy Policy for details on how your data is stored and handled.",
+  "category": "Health & Fitness",
+  "platforms": [
+    "Android",
+    "iOS"
+  ],
+  "links": {
+    "googlePlay": null,
+    "website": null
+  },
+  "branding": {
+    "icon": "assets/images/apps/heal-flow/icon.png",
+    "accent": "#0e7490"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2026-08-25",
+    "privacyPolicyVersion": "1.0",
+    "termsVersion": "1.0"
+  },
+  "pages": {
+    "privacy": true,
+    "terms": true,
+    "accountDeletion": true,
+    "support": true,
+    "faq": true,
+    "about": true
+  },
+  "features": [
+    {
+      "name": "Health Records",
+      "description": "Log blood pressure, weight, blood sugar, heart rate, temperature, and height entries over time.",
+      "is_active": true
+    },
+    {
+      "name": "Symptoms",
+      "description": "Record symptoms along with their severity and duration.",
+      "is_active": true
+    },
+    {
+      "name": "Medications",
+      "description": "Save the medications you take regularly, including dose and frequency, so logging them is quick.",
+      "is_active": true
+    },
+    {
+      "name": "Documents",
+      "description": "Attach and organize lab reports, prescriptions, scans, vaccination records, and other health documents.",
+      "is_active": true
+    },
+    {
+      "name": "Profile",
+      "description": "Store basic profile details, such as date of birth, gender, height, and blood group, used across your records.",
+      "is_active": true
+    },
+    {
+      "name": "Timeline and Reports",
+      "description": "Review your entries over time from a timeline view and reports.",
+      "is_active": true
+    },
+    {
+      "name": "Local Backup and Restore",
+      "description": "Create a single backup file of everything on this device and restore it later, with no cloud account required.",
+      "is_active": true
+    },
+    {
+      "name": "App Lock",
+      "description": "Protect the app with an optional PIN and biometric unlock.",
+      "is_active": true
+    },
+    {
+      "name": "Delete All Data",
+      "description": "A dedicated action to permanently erase everything HealFlow has stored on this device, in one step.",
+      "is_active": true
+    }
+  ],
+  "privacy": {
+    "effectiveDate": "2026-08-25",
+    "lastUpdated": "2026-08-25",
+    "summary": "HealFlow stores the health records, documents, medications, and profile information you enter in a local database and file storage on your own device. It has no accounts and no server, so this information is never uploaded to HealFlow.",
+    "dataCollection": {
+      "collectsPersonalData": false,
+      "collectsAutomatically": false,
+      "collectsAnalytics": false,
+      "collectsCrashReports": false,
+      "collectsAdvertisingData": false
+    },
+    "sections": [
+      {
+        "id": "introduction",
+        "title": "Introduction",
+        "paragraphs": [
+          "This Privacy Policy explains what information HealFlow stores and how it is handled. HealFlow stores the health records, documents, medications, symptoms, and profile information you enter. Everything you enter is stored on this device, in a local database and in this app's private file storage.",
+          "HealFlow has no user accounts and operates no server, so your records are never uploaded to HealFlow."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "data-stored-on-your-device",
+        "title": "Data Stored on Your Device",
+        "paragraphs": [
+          "Your records stay on this device unless you explicitly choose to back them up. The local database is not encrypted by HealFlow; it is protected by your device's own app sandboxing, which keeps other apps from reading it.",
+          "If your device itself is unlocked and unprotected, someone with physical access to it may be able to reach app data."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "backup",
+        "title": "Backup",
+        "paragraphs": [
+          "A backup file is created on this device and shared only when you explicitly start a backup. The backup file is not encrypted by HealFlow, so store it somewhere only you can access.",
+          "Once you send a backup somewhere, such as a cloud drive, an email, or another app, that copy is governed by whichever service you sent it to, and HealFlow no longer controls it."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "app-lock",
+        "title": "App Lock",
+        "paragraphs": [
+          "If you enable App Lock, it restricts access to HealFlow on this device using the PIN or biometric authentication you configure. Your PIN is stored as a salted hash in your device's secure storage, never as plain text, and never leaves the device.",
+          "App Lock protects access to the app; it does not encrypt the database, and it does not prevent screenshots or the app appearing in your device's recent-apps preview."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "permissions",
+        "title": "Permissions",
+        "paragraphs": [
+          "HealFlow requests only the permissions it needs for the features you choose to use. It does not request microphone access or the ability to draw over other apps."
+        ],
+        "bullets": [
+          "Biometric (fingerprint/face) — optional App Lock unlock, handled by your device's operating system.",
+          "File access (via your device's document picker or share sheet) — used only when you attach a document or create/restore a backup.",
+          "Internet — used only for the optional services described below (analytics, crash reporting, advertising); not required for core offline use.",
+          "Vibrate — used for minor interface feedback."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "analytics",
+        "title": "Analytics",
+        "paragraphs": [
+          "HealFlow includes Google Firebase Analytics to understand which screens and features are used. It records only the category of an entry, for example \"blood pressure\", never the value you entered, and never your notes, symptoms, medications, documents, or profile details. It contacts Google's servers and involves a per-installation identifier; it has no access to your records.",
+          "The in-app setting for this (Settings → Privacy → Share usage data) is on by default, with an off switch available at any time — turning it off stops collection at the Firebase level, not just in the app.",
+          "Independent of that in-app setting, analytics also requires a separate build-time configuration to be turned on, and this app's current build does not have it enabled, so no analytics data is transmitted today regardless of the in-app setting. If a future release turns that on, analytics would begin operating as described above, still under your in-app opt-out control."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "crash-reporting",
+        "title": "Crash Reporting",
+        "paragraphs": [
+          "HealFlow can send crash reports using Google Firebase Crashlytics, so that a bug which makes the app fail can be found and fixed. This is switched off by default and sends nothing unless you turn it on in Settings → Privacy → Send crash reports.",
+          "A crash report contains the technical details of the failure, such as which code failed and where, plus device and app version information. It is not meant to contain anything you entered, and values that look like measurements are removed before a report is sent.",
+          "Separately from the in-app setting, no Firebase project configuration is currently included in this app's build, so crash reporting cannot connect to Firebase even if turned on today. This section will be updated once that changes."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "remote-configuration-and-advertising",
+        "title": "Remote Configuration and Advertising",
+        "paragraphs": [
+          "HealFlow uses Google Firebase Remote Config to read a small number of app settings, such as whether advertising is switched on. This contacts Google's servers and involves a per-installation identifier, but sends no health data and reads settings only — it never reports what you do in the app.",
+          "The app may display advertisements supplied by Google AdMob. Ad requests are handled entirely by Google's advertising SDK, which may collect device and advertising identifiers to serve and measure ads, subject to Google's own privacy policy. Where required, you will be asked for advertising consent before any personalized ad is served, and you can decline.",
+          "Your health records are never used to select, target, or measure advertising, and are never sent to Google or any other third party — the advertising component of this app has no access to your records. As currently configured, the app uses Google's public test ad unit IDs only and is not serving live advertisements."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "childrens-privacy",
+        "title": "Children's Privacy",
+        "paragraphs": [
+          "HealFlow is a general-purpose personal health record tool and is not directed at children. It does not knowingly collect information suggesting use by children."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "deleting-your-data",
+        "title": "Deleting Your Data",
+        "paragraphs": [
+          "You can delete any individual record or document at any time from within the app. To remove everything at once, use Delete All Data in Backup & Restore — this erases your profile, all records, all stored document files, generated backup files still held in this app's temporary storage, your app settings, and your App Lock PIN.",
+          "Deletion is immediate and permanent; there is no server-side copy to recall. Backup files you have already shared elsewhere are not affected, and you must delete those yourself."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "changes-to-this-policy",
+        "title": "Changes to This Policy",
+        "paragraphs": [
+          "We may update this Privacy Policy from time to time, for example if analytics, crash reporting, or advertising configuration changes. We will update the effective date above when changes are made."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "contact",
+        "title": "Contact",
+        "paragraphs": [
+          "If you have questions about this Privacy Policy, you can reach us via the contact details on our Support page."
+        ],
+        "is_active": true
+      }
+    ],
+    "permissions": [
+      {
+        "name": "Biometric (fingerprint/face)",
+        "purpose": "Optional App Lock unlock; handled by the device OS",
+        "is_active": true
+      },
+      {
+        "name": "File access (via OS document picker/share sheet)",
+        "purpose": "Used only when you attach a document or create/restore a backup",
+        "is_active": true
+      },
+      {
+        "name": "Internet",
+        "purpose": "Used only for the optional analytics, crash-reporting, and advertising services",
+        "is_active": true
+      },
+      {
+        "name": "Vibrate",
+        "purpose": "Minor interface feedback",
+        "is_active": true
+      }
+    ],
+    "is_active": true
+  },
+  "terms": {
+    "effectiveDate": "2026-08-25",
+    "sections": [
+      {
+        "id": "acceptance-of-terms",
+        "title": "Acceptance of Terms",
+        "paragraphs": [
+          "By downloading, installing, or using HealFlow, you agree to these Terms of Use. If you do not agree, please do not use the app."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "use-of-the-app",
+        "title": "Use of the App",
+        "paragraphs": [
+          "HealFlow is a personal record-keeping tool intended to help you log, organize, and review your own health information on your own device."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "medical-disclaimer",
+        "title": "Medical Disclaimer",
+        "paragraphs": [
+          "HealFlow does not provide medical advice, diagnosis, or treatment recommendations. Any ranges or comparisons shown in the app are provided for general informational and record-keeping purposes only, and should not be interpreted as a medical diagnosis or professional medical judgment.",
+          "Always consult a qualified healthcare professional for questions about your health, symptoms, or medications. If you believe you are experiencing a medical emergency, contact emergency services immediately."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "license",
+        "title": "License",
+        "paragraphs": [
+          "Subject to these Terms, you are granted a limited, non-exclusive, non-transferable license to install and use the app on your own personal devices for its intended purpose."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "disclaimer-of-warranties",
+        "title": "Disclaimer of Warranties",
+        "paragraphs": [
+          "The app is provided \"as is\" and \"as available\", without warranties of any kind, whether express or implied, including but not limited to warranties of accuracy, reliability, or fitness for a particular purpose."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "limitation-of-liability",
+        "title": "Limitation of Liability",
+        "paragraphs": [
+          "To the fullest extent permitted by law, Flow Studio is not liable for any indirect, incidental, or consequential damages arising from your use of, or inability to use, the app, including any health-related decisions made based on information the app displays."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "changes-to-terms",
+        "title": "Changes to Terms",
+        "paragraphs": [
+          "We may update these Terms from time to time. Continued use of the app after changes take effect constitutes acceptance of the updated Terms."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "contact",
+        "title": "Contact",
+        "paragraphs": [
+          "If you have questions about these Terms, you can reach us via the contact details on our Support page."
+        ],
+        "is_active": true
+      }
+    ],
+    "is_active": true
+  },
+  "accountDeletion": {
+    "enabled": false,
+    "sections": [
+      {
+        "id": "what-this-page-covers",
+        "title": "What This Page Covers",
+        "paragraphs": [
+          "HealFlow does not have an account creation or login system. There is no username, password, or user profile tied to an account, so there is nothing to \"delete\" in the account sense.",
+          "This page exists because Google Play Console requires a data-deletion link for all apps, regardless of whether they use accounts. Below is how you can remove data stored by HealFlow."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "deleting-your-local-data",
+        "title": "Deleting Your Local Data",
+        "paragraphs": [
+          "You can delete any individual record or document at any time from within the app. To remove everything at once, use Delete All Data in Backup & Restore.",
+          "This erases your profile, all health records, all stored document files, generated backup files still held in this app's temporary storage, your app settings, and your App Lock PIN. Deletion is immediate and permanent; there is no server-side copy to recall."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "exported-files",
+        "title": "Exported Files",
+        "paragraphs": [
+          "If you previously created a backup and saved or shared it elsewhere, for example in cloud storage, email, or another app, that copy is outside of HealFlow's control. The app cannot reach out and delete copies you saved yourself — you must delete those directly."
+        ],
+        "is_active": true
+      }
+    ],
+    "is_active": true
+  },
+  "support": {
+    "email": "",
+    "responseTime": null,
+    "topics": [
+      "Adding and organizing health records",
+      "Attaching documents",
+      "Backup and restore",
+      "Deleting your data",
+      "App Lock setup",
+      "Privacy and data handling questions"
+    ],
+    "is_active": true
+  },
+  "faq": [
+    {
+      "question": "Does HealFlow require an account?",
+      "answer": "No. HealFlow has no sign-up, login, or account system. You can start using it right away, and everything is stored on your device.",
+      "is_active": true
+    },
+    {
+      "question": "Does HealFlow upload my health records anywhere?",
+      "answer": "No. Your records are stored locally on your device and are not transmitted to any server, because no such server exists for this app. The app does include optional analytics, crash-reporting, and advertising components — see the Privacy Policy's Analytics, Crash Reporting, and Remote Configuration and Advertising sections for exactly what each one can and cannot access.",
+      "is_active": true
+    },
+    {
+      "question": "How do I back up my data?",
+      "answer": "You can create a local backup file from More → Backup & Restore. It is saved or shared using your device's normal share options, and is not encrypted, so store it somewhere only you can access.",
+      "is_active": true
+    },
+    {
+      "question": "How do I restore my data from a backup?",
+      "answer": "You can restore a previously created backup file from More → Backup & Restore. Restoring replaces everything currently on this device.",
+      "is_active": true
+    },
+    {
+      "question": "Does HealFlow use App Lock or biometrics?",
+      "answer": "App Lock is optional and can be turned on from More → Security. It supports a PIN and/or biometric unlock, both handled by your device; App Lock does not encrypt the database and does not block screenshots.",
+      "is_active": true
+    },
+    {
+      "question": "Does HealFlow show ads?",
+      "answer": "An advertising component is integrated in the app, but it is currently configured with Google's test ad unit IDs only. The app is not serving live ads at this time, and ads never have access to your health records.",
+      "is_active": true
+    },
+    {
+      "question": "How do I delete all my data?",
+      "answer": "Use Delete All Data at the bottom of More → Backup & Restore. This permanently removes your profile, records, documents, settings, and App Lock PIN from this device, and cannot be undone.",
+      "is_active": true
+    },
+    {
+      "question": "Does HealFlow require an internet connection?",
+      "answer": "No. HealFlow works offline and stores everything on this device. An internet connection is only used for the optional analytics, crash-reporting, and advertising components described in the Privacy Policy.",
+      "is_active": true
+    }
+  ],
+  "dataSafety": {
+    "dataCollected": [],
+    "dataShared": [],
+    "purposeCategories": [],
+    "securityPractices": [
+      "Local SQLite storage on-device, not transmitted to any server",
+      "Local database is not encrypted by the app (protected only by the device's own app sandboxing) — stated plainly for transparency, not implied to be stronger than it is",
+      "Backup files are not encrypted",
+      "Optional PIN protection (salted, SHA-256 hashed, stored via expo-secure-store)",
+      "Optional biometric App Lock handled entirely by the device OS"
+    ],
+    "notes": [
+      "Firebase Analytics' in-app user setting defaults to on (opt-out), but the app's current build does not enable analytics at the build-config level and has no Firebase project configuration, so nothing is collected today. Firebase Crashlytics defaults to off (opt-in) and is likewise inert today with no Firebase project configured. If a future release enables either at the build level and adds real Firebase configuration, this file and the Privacy Policy must be updated before that release ships, and the real Play Console Data Safety form must be completed to match."
+    ],
+    "deletionAvailable": true,
+    "is_active": true
+  }
+}

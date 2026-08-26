@@ -1,0 +1,436 @@
+{
+  "id": "money-flow",
+  "name": "Money Flow",
+  "shortName": "Money Flow",
+  "packageName": "com.moneyflow.app",
+  "status": "in-development",
+  "tagline": "Offline-first personal finance tracking, on your device.",
+  "shortDescription": "Track accounts, transactions, budgets, goals, investments, and loans, entirely on your device, with no account required.",
+  "description": "Money Flow is an offline-first personal finance tracker for Android. It records income and expense transactions across multiple account types, organizes them into categories, and helps you set budgets, track savings goals, monitor investments, and manage loans and EMIs. All data is stored locally in a SQLite database on your device. There is no login or account system, and no server that your financial data is sent to.",
+  "category": "Finance",
+  "platforms": [
+    "Android"
+  ],
+  "links": {
+    "googlePlay": null,
+    "website": null
+  },
+  "branding": {
+    "icon": "assets/images/apps/money-flow/icon.png",
+    "accent": "#059669"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2026-08-25",
+    "privacyPolicyVersion": "1.0",
+    "termsVersion": "1.0"
+  },
+  "pages": {
+    "privacy": true,
+    "terms": true,
+    "accountDeletion": true,
+    "support": true,
+    "faq": true,
+    "about": true
+  },
+  "features": [
+    {
+      "name": "Transactions",
+      "description": "Record income and expense transactions, with filtering and searching to find what you're looking for.",
+      "icon": "receipt",
+      "is_active": true
+    },
+    {
+      "name": "Accounts",
+      "description": "Track multiple account types, including savings, wallet, credit card, investment, and business accounts.",
+      "icon": "wallet",
+      "is_active": true
+    },
+    {
+      "name": "Categories",
+      "description": "Organize transactions into categories, and archive categories you no longer use.",
+      "icon": "tag",
+      "is_active": true
+    },
+    {
+      "name": "Budgets",
+      "description": "Set spending budgets and track your progress against them.",
+      "icon": "target",
+      "is_active": true
+    },
+    {
+      "name": "Savings Goals",
+      "description": "Create savings goals and track contributions toward them over time.",
+      "icon": "piggy-bank",
+      "is_active": true
+    },
+    {
+      "name": "Investments",
+      "description": "Track investment holdings alongside your other accounts.",
+      "icon": "trending-up",
+      "is_active": true
+    },
+    {
+      "name": "Loans and EMI Tracking",
+      "description": "Track loans and debts, including equated monthly installment (EMI) calculations.",
+      "icon": "landmark",
+      "is_active": true
+    },
+    {
+      "name": "Reports and Charts",
+      "description": "View reports and charts that summarize your accounts, spending, and budgets.",
+      "icon": "bar-chart",
+      "is_active": true
+    },
+    {
+      "name": "CSV Import and Export",
+      "description": "Import transactions from a CSV or XLSX template, and export your transaction data to CSV.",
+      "icon": "file-spreadsheet",
+      "is_active": true
+    },
+    {
+      "name": "Local Backup and Restore",
+      "description": "Create a local JSON backup and restore from a backup file. No cloud account is required.",
+      "icon": "save",
+      "is_active": true
+    },
+    {
+      "name": "PIN and Biometric App Lock",
+      "description": "Optionally lock the app with a PIN or biometric unlock. Sensitive actions like resetting or restoring data require re-authentication.",
+      "icon": "lock",
+      "is_active": true
+    },
+    {
+      "name": "Currency and Theme Customization",
+      "description": "Choose from multiple currencies, and switch between light, dark, or system theme.",
+      "icon": "palette",
+      "is_active": true
+    }
+  ],
+  "privacy": {
+    "effectiveDate": "2026-08-25",
+    "lastUpdated": "2026-08-25",
+    "summary": "Money Flow stores your financial data locally on your device. It does not have an account or login system, and it does not send your data to any server, because no such server exists for this app.",
+    "dataCollection": {
+      "collectsPersonalData": false,
+      "collectsAutomatically": false,
+      "collectsAnalytics": false,
+      "collectsCrashReports": false,
+      "collectsAdvertisingData": false
+    },
+    "sections": [
+      {
+        "id": "introduction",
+        "title": "Introduction",
+        "paragraphs": [
+          "This Privacy Policy explains what information Money Flow stores and how it is handled. Money Flow does not have an account or login system: there is no sign-up, no username or password, and no user profile stored anywhere but your own device."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "information-stored-locally",
+        "title": "Information Stored Locally",
+        "paragraphs": [
+          "Money Flow stores your financial data, including accounts, transactions, categories, budgets, goals, investments, and loans, in a local SQLite database on your device. App settings and preferences are stored in a local key-value store on your device.",
+          "None of this data is transmitted to any server, because no such server exists for this app. It remains on your device unless you choose to export or back it up yourself."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "information-you-can-export",
+        "title": "Information You Can Export",
+        "paragraphs": [
+          "You can choose to export your data as a CSV file or create a local backup file. These are user-initiated actions performed through your device's operating system document picker or share sheet.",
+          "Once you export or share a file this way, it is outside of Money Flow's control. The app cannot track, modify, or delete copies of files you have saved or shared elsewhere."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "cloud-backup-google-drive",
+        "title": "Cloud Backup (Google Drive)",
+        "paragraphs": [
+          "The app includes code for an optional Google Drive backup feature, using Google OAuth and the Drive app-data scope. This feature is currently disabled and is not available to users; it appears in the app as \"coming soon.\"",
+          "If this feature is enabled in a future update, this Privacy Policy will be updated first to describe what data it stores and how."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "permissions",
+        "title": "Permissions",
+        "paragraphs": [
+          "Money Flow requests only the permissions it needs for the features you choose to use:"
+        ],
+        "bullets": [
+          "Biometric (fingerprint/face) — Optional app-lock unlock; handled by the device OS",
+          "Notifications — Only used if you enable reminders",
+          "File access (via OS document picker/share sheet) — Only used when you import, export, or back up data"
+        ],
+        "is_active": true
+      },
+      {
+        "id": "advertising",
+        "title": "Advertising",
+        "paragraphs": [
+          "The app integrates the Google Mobile Ads SDK, but it is currently configured with Google's public test ad unit IDs only. Money Flow is not serving live ads at this time.",
+          "This section will be updated if and when live ads are enabled."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "crash-and-error-reporting",
+        "title": "Crash and Error Reporting",
+        "paragraphs": [
+          "Money Flow includes Firebase Crashlytics, a crash-reporting SDK, and the app's build configuration marks it as enabled by default for a production release.",
+          "As distributed today, Crashlytics does not send any data: it is automatically turned off during development, and the Firebase project configuration file it needs to connect to Firebase has not yet been added to this app, so it cannot report anything even in a release build.",
+          "If that configuration is completed in a future release, Crashlytics would begin collecting crash and error diagnostic data (such as device information and stack traces) to help us fix bugs, and this Privacy Policy will be updated before that takes effect."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "device-integrity-checks",
+        "title": "Device Integrity Checks",
+        "paragraphs": [
+          "Money Flow performs local checks for rooted or jailbroken devices, mock locations, and tampering or hooking frameworks, and it also uses the Google Play Integrity API. These checks read device signals locally to help protect your data.",
+          "These checks are not used to identify or track you."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "data-security",
+        "title": "Data Security",
+        "paragraphs": [
+          "If you set a PIN, it is salted and hashed using SHA-256, and stored in secure, encrypted local storage on your device. Biometric unlock is handled entirely by your device's operating system; the app never receives your biometric data.",
+          "Backup files are automatically encrypted before being saved locally or uploaded, using an app-level key built into the app. This key is not a unique secret generated per user; it is derived using chained SHA-256 hashing (2,000 rounds) rather than a password-based key derivation function such as PBKDF2. This provides a basic layer of protection for backup files, not a strong, per-user encryption guarantee, and no security measure is perfect."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "childrens-privacy",
+        "title": "Children's Privacy",
+        "paragraphs": [
+          "Money Flow is a general-purpose personal finance tool and is not directed at children. It does not knowingly collect information suggesting use by children."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "data-retention-and-deletion",
+        "title": "Data Retention and Deletion",
+        "paragraphs": [
+          "Your data persists on your device until you reset the app's data or uninstall the app. Because there is no server-side account or database for Money Flow, there is no server-side copy of your data to retain or delete."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "changes-to-this-policy",
+        "title": "Changes to This Policy",
+        "paragraphs": [
+          "This Privacy Policy may be updated from time to time, for example if a currently disabled feature such as cloud backup or live advertising is enabled. The effective date at the top of this page will be updated whenever changes are made."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "contact",
+        "title": "Contact",
+        "paragraphs": [
+          "If you have questions about this Privacy Policy, you can reach us via the contact details on our Support page."
+        ],
+        "is_active": true
+      }
+    ],
+    "permissions": [
+      {
+        "name": "Biometric (fingerprint/face)",
+        "purpose": "Optional app-lock unlock; handled by the device OS",
+        "is_active": true
+      },
+      {
+        "name": "Notifications",
+        "purpose": "Only used if you enable reminders",
+        "is_active": true
+      },
+      {
+        "name": "File access (via OS document picker/share sheet)",
+        "purpose": "Only used when you import, export, or back up data",
+        "is_active": true
+      }
+    ],
+    "is_active": true
+  },
+  "terms": {
+    "effectiveDate": "2026-08-25",
+    "sections": [
+      {
+        "id": "acceptance-of-terms",
+        "title": "Acceptance of Terms",
+        "paragraphs": [
+          "By downloading, installing, or using Money Flow, you agree to these Terms of Use. If you do not agree, please do not use the app."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "use-of-the-app",
+        "title": "Use of the App",
+        "paragraphs": [
+          "Money Flow is provided for your personal use in tracking your own finances. You agree to use the app only for lawful purposes and in a way that does not infringe the rights of others."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "no-financial-advice-disclaimer",
+        "title": "No Financial Advice Disclaimer",
+        "paragraphs": [
+          "Money Flow's budgets, EMI calculations, investment tracking, and reports are provided for personal record-keeping and general informational purposes only. They do not constitute financial, investment, tax, or legal advice, and should not be relied upon as such. Consult a qualified professional for advice specific to your situation."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "license",
+        "title": "License",
+        "paragraphs": [
+          "Subject to your compliance with these Terms, you are granted a limited, non-exclusive, non-transferable license to install and use Money Flow on your personal devices."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "disclaimer-of-warranties",
+        "title": "Disclaimer of Warranties",
+        "paragraphs": [
+          "Money Flow is provided \"as is\" and \"as available,\" without warranties of any kind, whether express or implied, to the fullest extent permitted by law."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "limitation-of-liability",
+        "title": "Limitation of Liability",
+        "paragraphs": [
+          "To the fullest extent permitted by law, Flow Studio is not liable for any indirect, incidental, or consequential damages arising from your use of the app, including financial decisions made using information from the app."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "changes-to-terms",
+        "title": "Changes to Terms",
+        "paragraphs": [
+          "These Terms may be updated from time to time. Continued use of the app after changes take effect constitutes acceptance of the updated Terms."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "contact",
+        "title": "Contact",
+        "paragraphs": [
+          "If you have questions about these Terms, you can reach us via the contact details on our Support page."
+        ],
+        "is_active": true
+      }
+    ],
+    "is_active": true
+  },
+  "accountDeletion": {
+    "enabled": false,
+    "sections": [
+      {
+        "id": "what-this-page-covers",
+        "title": "What This Page Covers",
+        "paragraphs": [
+          "Money Flow does not have an account creation or login system. There is no username, password, or user profile associated with your use of the app, so there is nothing to \"delete\" in the account sense.",
+          "This page exists because Google Play Console requires a data-deletion link for all apps, regardless of whether they use accounts. Below is how you can remove data stored by Money Flow."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "deleting-your-local-data",
+        "title": "Deleting Your Local Data",
+        "paragraphs": [
+          "You can reset all data stored locally by Money Flow from within the app's settings. This action is protected by PIN or biometric re-authentication if you have app-lock enabled, and it permanently removes your accounts, transactions, categories, budgets, goals, investments, and loans from your device."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "exported-files",
+        "title": "Exported Files",
+        "paragraphs": [
+          "If you previously exported data as a CSV file or created a local backup and saved it elsewhere, for example in cloud storage or on another device, that file is outside of Money Flow's control. The app cannot reach out and delete copies you saved yourself."
+        ],
+        "is_active": true
+      },
+      {
+        "id": "cloud-backup-data",
+        "title": "Cloud Backup Data",
+        "paragraphs": [
+          "The Google Drive backup feature described in our Privacy Policy is currently disabled and not available to users. If it is enabled in a future update, you would be able to manage that data through your own Google account."
+        ],
+        "is_active": true
+      }
+    ],
+    "is_active": true
+  },
+  "support": {
+    "email": "",
+    "responseTime": null,
+    "topics": [
+      "Bug reports",
+      "Feature requests",
+      "Privacy questions",
+      "Data backup and restore questions"
+    ],
+    "is_active": true
+  },
+  "faq": [
+    {
+      "question": "Does Money Flow require an account?",
+      "answer": "No. Money Flow has no sign-up, login, or account system. You can start using it immediately after installing it.",
+      "is_active": true
+    },
+    {
+      "question": "Does Money Flow upload my data anywhere?",
+      "answer": "No. Your financial data is stored locally on your device in a SQLite database and is not transmitted to any server, because no such server exists for this app. The app does include a crash-reporting SDK (Firebase Crashlytics) that is currently inactive — see the Privacy Policy's \"Crash and Error Reporting\" section for details.",
+      "is_active": true
+    },
+    {
+      "question": "How do I back up my data?",
+      "answer": "You can create a local JSON backup from within the app's settings. This does not require a cloud account; the backup file is saved through your device's document picker or share sheet.",
+      "is_active": true
+    },
+    {
+      "question": "How do I restore my data from a backup?",
+      "answer": "You can restore from a previously created local backup file within the app's settings. This action requires PIN or biometric re-authentication if you have app-lock enabled.",
+      "is_active": true
+    },
+    {
+      "question": "Does Money Flow use biometrics?",
+      "answer": "Biometric unlock is optional and used only for the app-lock feature. Biometric matching is handled entirely by your device's operating system; Money Flow does not access or store your biometric data.",
+      "is_active": true
+    },
+    {
+      "question": "Does Money Flow show ads?",
+      "answer": "The app includes the Google Mobile Ads SDK, but it is currently configured with test ad unit IDs only. Money Flow is not showing live ads at this time.",
+      "is_active": true
+    },
+    {
+      "question": "How do I reset or delete my data?",
+      "answer": "You can reset all locally stored data from within the app's settings. This permanently removes your accounts, transactions, categories, budgets, goals, investments, and loans from your device.",
+      "is_active": true
+    },
+    {
+      "question": "Does Money Flow require an internet connection?",
+      "answer": "No. Money Flow is offline-first and its core features, tracking accounts, transactions, budgets, goals, investments, and loans, work without an internet connection.",
+      "is_active": true
+    }
+  ],
+  "dataSafety": {
+    "dataCollected": [],
+    "dataShared": [],
+    "purposeCategories": [],
+    "securityPractices": [
+      "Local SQLite storage, not transmitted to any server",
+      "Optional PIN protection (salted, SHA-256 hashed, stored via expo-secure-store)",
+      "Optional biometric app lock handled entirely by the device OS"
+    ],
+    "deletionAvailable": true,
+    "notes": [
+      "Firebase Crashlytics is integrated and enabled in app config (extra.crashReporting.disabled: false), but is currently inert: always no-op in development, and no google-services.json exists in the repo for a release build to connect to. If that configuration is completed, crash/device diagnostic data would begin being collected and this file (plus the Privacy Policy) must be updated before that release ships."
+    ],
+    "is_active": true
+  }
+}
