@@ -1,0 +1,8 @@
+{
+  "minSupportedVersion": "1.0.0",
+  "minSupportedVersionAndroid": "1.0.0",
+  "minSupportedVersionIos": "1.0.0",
+  "storeUrlAndroid": "https://play.google.com/store/apps/details?id=com.moneyflow.app",
+  "storeUrlIos": "https://apps.apple.com/app/id0000000000",
+  "message": "A new version of Money Flow is required to continue. Please update from the store."
+}

@@ -1,8 +1,19 @@
 # Flow Studio — policy & support site
 
 Static, GitHub-Pages-hostable website that serves as the Google Play Store compliance/support
-site for the Flow Studio app family. Plain HTML/CSS/JS, no build step, no backend. Every page
-renders its content from JSON at runtime.
+site for the Flow Studio app family. Plain HTML/CSS/JS, no backend.
+
+Every page is **generated from JSON by `tools/build.js`** into real, complete HTML. Nothing is
+fetched at runtime and no content depends on JavaScript — a privacy policy URL handed to Play
+Store review is a full document in the source, indexable and readable with scripts disabled.
+The client JS is behaviour only (theme, mobile nav, TOC scroll-spy, FAQ accordion).
+
+```bash
+node tools/build.js    # from the repo root — rewrites every .html, sitemap.xml, robots.txt
+```
+
+`html/*.html` and `html/apps/**/*.html` are build output. Do not edit them by hand; edit
+`data/` or `tools/build.js` and rebuild.
 
 See [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) for the full spec history, the facts sourced
 from the Money Flow app, and every content/architecture decision behind this build.
@@ -13,11 +24,11 @@ from the Money Flow app, and every content/architecture decision behind this bui
 index.html            Site home (Flow Studio overview + featured apps)
 apps.html              Full listing of every published app
 apps/<app-id>/         One folder per app — index, privacy, terms, account-deletion,
-                        support, faq, about — each a small identical shell page
+                        support, faq, about — all generated
 404.html
 assets/
   css/styles.css        Design tokens + every component style
-  js/                    utils, theme, content, render, navigation, app (see below)
+  js/                    theme.js, site.js (see below)
   images/brand/          Flow Studio wordmark (inline SVG, no external logo file)
   images/apps/<app-id>/  Per-app icon
 data/
@@ -30,18 +41,23 @@ docs/REQUIREMENTS.md  docs/CONFIG_CHECKLIST.md
 robots.txt  sitemap.xml  .nojekyll
 ```
 
+### Build
+
+`tools/build.js` (Node, no dependencies) reads `data/`, validates it, and writes every HTML
+page plus `sitemap.xml` and `robots.txt`. It escapes every JSON-sourced string on the way out,
+so nothing in the data can inject markup. It fails the build — rather than shipping a broken
+page — if an app sets `pages.privacy: true` without a `privacy.sections[]`, and similarly for
+every other page key.
+
 ### JS modules
 
-- `utils.js` — DOM helpers, date formatting, `withRoot()` path prefixing, no `innerHTML`.
 - `theme.js` — light/dark/system, persisted in `localStorage`, no flash of wrong theme.
-- `content.js` — fetches `data/site.json` → the active brand's `data/brands/<id>.json`, then
-  fetches every app listed in that brand's `apps[]` from its own `data/apps/<app-id>.json` (in
-  parallel), validates the assembled result, resolves which app a page belongs to.
-- `render.js` — the only place JSON content becomes DOM. Whitelisted block types only
-  (paragraph, bullets, numbered, notice, table, FAQ, feature grid, app card) — everything is
-  built with `textContent`/DOM APIs, never `innerHTML`, so nothing in the JSON can execute.
-- `navigation.js` — shared header, footer, mobile menu, breadcrumbs.
-- `app.js` — per-page bootstrap: reads `<body data-page data-app-id>`, loads content, renders.
+  Drives both switcher presentations (the three-option radiogroup, and the single 44px
+  cycle button that replaces it below 640px).
+- `site.js` — mobile menu (with focus trap and scroll-lock release on rotation), FAQ
+  accordion, policy TOC scroll-spy. No content, no fetching.
+
+Both are loaded with `defer`. Page content does not depend on either of them.
 
 ## How the multi-brand / multi-app model works
 
@@ -71,14 +87,14 @@ robots.txt  sitemap.xml  .nojekyll
    another app's claims, they won't be true for a different app.**
 2. Add `"<new-id>"` to the active brand's `apps[]` array in `data/brands/<brand-id>.json`
    (just the id string — the file above is what actually gets fetched).
-3. Copy an existing app folder for the HTML shells, e.g. `apps/money-flow/` → `apps/<new-id>/`.
-   In every copied file, change `data-app-id="money-flow"` to `data-app-id="<new-id>"`, the
-   favicon `href`, the breadcrumb text, and `index.html`'s `<title>` — everything else
-   (script tags, `FS_ROOT`, container ids) is the JS contract and stays identical.
-4. Add an icon at `assets/images/apps/<new-id>/icon.png`.
-5. Add the new app's URLs to `sitemap.xml` (`apps.html`'s listing needs no edit — it renders
-   from `apps[]` automatically).
-6. Commit. No CSS/JS changes required.
+3. Add icons at `assets/images/apps/<new-id>/`: `icon.png` (1024px master, store assets
+   only — never referenced by a page), plus `icon-96.png`, `icon-192.png`, `icon-512.png`
+   and `favicon-32.png`. Point `branding.iconSizes`/`iconMaster`/`favicon` at them.
+   `branding.accentSolid` must be dark enough for white text (≥4.5:1) — it is the fill
+   behind every accent-colored button.
+4. Run `node tools/build.js`. The app's seven pages, its nav/footer links and its sitemap
+   entries are all created for you — no HTML is written by hand and none is copied.
+5. Commit the data, the icons **and** the generated HTML.
 
 ## Adding a new brand
 
@@ -111,11 +127,9 @@ avoid a flash of the wrong theme. `theme.js` wires up the switcher buttons after
 
 ## Testing locally
 
-GitHub Pages compatible paths use `fetch()`, which browsers block on `file://` URLs — serve
-the folder over HTTP instead:
-
 ```bash
-cd app-sites/html
+node tools/build.js
+cd html
 python3 -m http.server 8000
 ```
 
@@ -130,8 +144,9 @@ Then open `http://localhost:8000/`.
 3. Before publishing for real, fill in the fields intentionally left blank — see
    `docs/CONFIG_CHECKLIST.md` for the full list with exact file/field paths (site-wide
    `supportEmail`/`url` in `data/brands/<brand-id>.json`, each app's own `support.email`/
-   `links.googlePlay` in its `data/apps/<app-id>.json`) — and update `sitemap.xml` with the
-   real domain.
+   `links.googlePlay` in its `data/apps/<app-id>.json`). `sitemap.xml` and `robots.txt` are
+   generated from `site.url`, so setting that one field is all the domain configuration
+   there is — then rerun `node tools/build.js`.
 4. Optional custom domain: add a `CNAME` file at this folder's root containing the domain, and
    point its DNS at GitHub Pages per GitHub's custom-domain docs. `site.url` in the brand JSON
    should match whichever URL (the `github.io` one or the custom domain) is actually live.

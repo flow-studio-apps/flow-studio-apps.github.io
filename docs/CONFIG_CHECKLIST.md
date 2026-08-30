@@ -4,6 +4,11 @@ Site-wide fields live in **`data/brands/flow-studio.json`**. Each app's own fiel
 own file — **`data/apps/money-flow.json`** and **`data/apps/heal-flow.json`** — not nested
 inside the brand file (the brand file's `apps[]` is just `["money-flow", "heal-flow"]`, a list
 of ids; each app is a fully separate file). No HTML/CSS/JS changes needed for anything below.
+
+**Every change here needs a rebuild to reach the site:** `node tools/build.js` from the repo
+root. The `.html` files, `sitemap.xml` and `robots.txt` are generated output — editing them
+directly is pointless, the next build overwrites them.
+
 Nothing here was guessed — these were left blank/placeholder on purpose because the real value
 doesn't exist anywhere in the respective app's repo (see `docs/REQUIREMENTS.md` §4/§4b for the
 sourcing) or is a business decision only you can make.
@@ -20,13 +25,20 @@ this site.
 | `site.contact.privacyEmail` | `data/brands/flow-studio.json` | `""` | Can be the same address as `supportEmail`, or a separate one if you want privacy questions routed differently. |
 | `support.email` | `data/apps/money-flow.json` | `""` | Per-app support email for Money Flow. Leave empty to fall back to `site.contact.supportEmail` automatically. |
 | `support.email` | `data/apps/heal-flow.json` | `""` | Same, for HealFlow. Given HealFlow handles health data, consider whether you want a dedicated address here rather than sharing the site-wide one. |
-| `site.url` | `data/brands/flow-studio.json` | `""` | The canonical URL once deployed — either `https://<username>.github.io/<repo>/` or your custom domain. Used for SEO canonical tags and Open Graph metadata. |
 | `links.googlePlay` | `data/apps/money-flow.json` | `null` | Money Flow's Play Store listing URL, once actually published. |
 | `links.googlePlay` | `data/apps/heal-flow.json` | `null` | HealFlow's Play Store listing URL, once actually published. |
 | `links.website` (optional) | `data/apps/heal-flow.json` | `null` | HealFlow's App Store listing, if you publish to iOS — there's no dedicated `appStore` field yet (see "Schema follow-ups" below). |
 
-Until each Google Play link is set, its "Get it on Google Play" button stays hidden rather than
-linking to a nonexistent listing.
+Until each Google Play link is set, its "Get it on Google Play" button is not generated at all,
+rather than linking to a nonexistent listing.
+
+## Already set
+
+| Field | File | Current value | Notes |
+|---|---|---|---|
+| `site.url` | `data/brands/flow-studio.json` | `https://flow-studio-apps.github.io` | A GitHub Pages **user** page, so `404.html` uses root-absolute asset paths with no repo prefix. This one field drives every `<link rel="canonical">`, `og:url`, and every entry in the generated `sitemap.xml`/`robots.txt`. Moving to a project page or custom domain = change this, rebuild, done. |
+| `branding.iconSizes` / `iconMaster` / `favicon` | both `data/apps/*.json` | 96/192/512 + 32px favicon | Pages only ever reference the derivatives. `icon.png` (1024px) is kept as the store-asset master and is deliberately never referenced by a page. |
+| `branding.accentSolid` | both `data/apps/*.json` | `#047857` / `#0e7490` | The fill behind white button text, kept separate from `accent` (the brand hue used for borders and active states). **Must be ≥4.5:1 against white** — money-flow's `accent` is only 3.77:1, which is why the split exists. Check any new app's value before shipping it. |
 
 ## Worth checking before you publish (app identity)
 
@@ -82,9 +94,20 @@ text explicitly describes these features as off or inert.
 
 - There's no dedicated `links.appStore` field yet — only `links.googlePlay`/`links.website`.
   HealFlow ships on iOS too, so if/when it's on the App Store, either reuse `links.website` for
-  that URL or extend the schema (`render.js`'s `renderAppCard` and `app.js`'s hero rendering
-  would need one small addition each to show an "On the App Store" button/link).
+  that URL or extend the schema — `appCard()` and the app-overview hero in `tools/build.js`
+  would each need one small addition to emit an "On the App Store" link.
+
+## Turning a page off for an app
+
+Set the relevant key in that app's `pages{}` to `false` and rebuild. The page stops being
+generated, and its header nav link, footer link, app-card button and sitemap entry all
+disappear with it — there is nowhere left pointing at a URL that no longer exists.
+
+Individual entries within a page (a feature, an FAQ item, a policy section, the support block)
+carry `is_active` instead: set it to `false` to drop just that entry.
 
 ## Adding a third app or a new brand
 
 See `README.md`'s "Adding a new app" / "Adding a new brand" sections for the full step-by-step.
+The short version: it is a `data/` change plus icons plus `node tools/build.js`. No HTML is
+written or copied by hand.

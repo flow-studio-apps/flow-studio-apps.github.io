@@ -17,8 +17,16 @@
     "website": null
   },
   "branding": {
-    "icon": "assets/images/apps/heal-flow/icon.png",
-    "accent": "#0e7490"
+    "icon": "assets/images/apps/heal-flow/icon-192.png",
+    "iconSizes": {
+      "96": "assets/images/apps/heal-flow/icon-96.png",
+      "192": "assets/images/apps/heal-flow/icon-192.png",
+      "512": "assets/images/apps/heal-flow/icon-512.png"
+    },
+    "iconMaster": "assets/images/apps/heal-flow/icon.png",
+    "favicon": "assets/images/apps/heal-flow/favicon-32.png",
+    "accent": "#0e7490",
+    "accentSolid": "#0e7490"
   },
   "metadata": {
     "version": "1.0.0",
@@ -345,7 +353,7 @@
       "App Lock setup",
       "Privacy and data handling questions"
     ],
-    "is_active": true
+    "is_active": false
   },
   "faq": [
     {

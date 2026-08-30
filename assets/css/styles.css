@@ -66,11 +66,23 @@ table {
   border-spacing: 0;
 }
 
-/* Native `hidden` attribute must always win — no conflicting display rule
-   should ever be applied to a `[hidden]` element elsewhere in this file. */
+/* Native `hidden` attribute must always win. Several component rules later in
+   this file set `display` at equal specificity (.btn, .feature-grid, .nav-link,
+   .status-badge, .link-list), so `!important` is what actually enforces it. */
 [hidden] {
-  display: none;
+  display: none !important;
 }
+
+/* --------------------------------------------------------------------------
+   Breakpoints
+
+   Media queries cannot read custom properties, so these are the four literals
+   used throughout this file. Keep to this set; do not introduce neighbours.
+
+     640px  main/footer padding, compact theme switcher, header logo scale
+     768px  mobile nav overlay, collapsible TOC disclosure
+    1120px  two-column policy layout + sticky TOC rail
+   -------------------------------------------------------------------------- */
 
 /* --------------------------------------------------------------------------
    Tokens
@@ -92,19 +104,23 @@ table {
   /* Solid-fill CTA backgrounds (white text on top) — kept separate from
      --brand-primary because that token is tuned bright for link/text contrast
      against dark backgrounds, which is too light for white button text. */
-  --brand-solid: #0f9d9a;
-  --brand-solid-hover: #0c7f7c;
+  --brand-solid: #0c7f7c;
+  --brand-solid-hover: #0a6b69;
 
+  /* Status text on --surface; also overridden per theme below, because these read
+     as 0.75rem bold badge text and need the full 4.5:1. */
   --success: #15803d;
-  --warning: #b45309;
+  --warning: #8a4209;
   --danger: #dc2626;
 
   --shadow: 0 1px 3px rgba(0, 0, 0, .06);
   --focus-ring: 0 0 0 3px rgba(15, 157, 154, .35);
 
-  /* Per-app accent — pages override via inline style on a wrapper element.
-     Falls back to the brand color when unset. */
-  --app-accent: var(--brand-primary);
+  /* Per-app accent — pages set this via inline style on a wrapper element. It is
+     deliberately NOT given a value here: consumers write
+     var(--app-accent, var(--brand-solid)) and that fallback only resolves while the
+     token is unset. Defining it at :root made every non-app page fall through to the
+     bright --brand-primary, which is unreadable under white button text in dark mode. */
 
   /* Spacing scale (8px base) */
   --space-1: 4px;
@@ -144,6 +160,11 @@ table {
     --brand-solid: #0c7f7c;
     --brand-solid-hover: #0a6b69;
 
+    /* Light-mode status colors sit at 3.78:1 / 2.83:1 on this background. */
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --danger: #f87171;
+
     --shadow: 0 1px 3px rgba(0, 0, 0, .35);
     --focus-ring: 0 0 0 3px rgba(45, 212, 207, .4);
 
@@ -167,6 +188,11 @@ table {
   --brand-solid: #0c7f7c;
   --brand-solid-hover: #0a6b69;
 
+  /* Light-mode status colors sit at 3.78:1 / 2.83:1 on this background. */
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+
   --shadow: 0 1px 3px rgba(0, 0, 0, .35);
   --focus-ring: 0 0 0 3px rgba(45, 212, 207, .4);
 
@@ -177,8 +203,10 @@ table {
    Base / Typography
    -------------------------------------------------------------------------- */
 
+/* No font-size here on purpose: pinning it to 16px overrides the reader's own
+   browser font setting, and since the whole scale is in rem that silently disables
+   text scaling for everyone who raised their default. */
 html {
-  font-size: 16px;
   scroll-behavior: smooth;
 }
 
@@ -188,6 +216,7 @@ body {
   color: var(--text);
   line-height: 1.55;
   min-height: 100vh;
+  min-height: 100dvh; /* avoids the jump as mobile browser chrome hides */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -240,11 +269,12 @@ code {
   padding: 0.1em 0.35em;
 }
 
-/* Visible focus state everywhere; never remove outline without replacing it */
+/* Visible focus state everywhere; never remove outline without replacing it.
+   No border-radius here — it would override each component's own radius and make
+   buttons (7px) and status badges (999px) visibly change shape on keyboard focus. */
 :focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
-  border-radius: 4px;
 }
 
 /* --------------------------------------------------------------------------
@@ -255,6 +285,8 @@ code {
   max-width: var(--content-max);
   margin-inline: auto;
   padding-inline: clamp(16px, 4vw, 32px);
+  padding-left: max(clamp(16px, 4vw, 32px), env(safe-area-inset-left));
+  padding-right: max(clamp(16px, 4vw, 32px), env(safe-area-inset-right));
 }
 
 .site-main {
@@ -287,10 +319,15 @@ code {
    Header / Nav
    -------------------------------------------------------------------------- */
 
+/* Auto-hiding sticky header: slides out of the way when scrolling down and returns
+   on the first upward scroll (see initHeaderAutoHide in site.js). The transform is
+   only ever applied when JS sets data-hidden, so with scripts off the header simply
+   stays put — it never ends up hidden with no way to bring it back. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: transform 200ms ease;
   display: flex;
   align-items: center;
   gap: var(--space-4);
@@ -300,6 +337,10 @@ code {
   padding-top: env(safe-area-inset-top);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
+}
+
+.site-header[data-hidden="true"] {
+  transform: translateY(-100%);
 }
 
 .site-header .site-shell {
@@ -320,7 +361,8 @@ code {
   flex-shrink: 0;
 }
 
-.site-logo img {
+.site-logo img,
+.site-logo svg {
   width: 190px;
   height: 38px;
 }
@@ -368,8 +410,8 @@ code {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--text);
@@ -396,6 +438,10 @@ code {
 .nav-toggle-icon::before { top: -6px; }
 .nav-toggle-icon::after { top: 6px; }
 
+.nav-backdrop {
+  display: none;
+}
+
 /* --------------------------------------------------------------------------
    Theme switcher
    -------------------------------------------------------------------------- */
@@ -414,6 +460,7 @@ code {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-height: 40px;
   padding: var(--space-1) var(--space-2);
   border-radius: 6px;
   font-size: 0.8rem;
@@ -426,10 +473,43 @@ code {
   color: var(--text);
 }
 
-.theme-switcher-btn[aria-pressed="true"] {
+.theme-switcher-btn[aria-checked="true"] {
   background: var(--surface);
   color: var(--brand-primary);
   font-weight: 700;
+}
+
+/* Compact single-button form. The three-label switcher is ~150px wide and cannot
+   shrink; below 640px it is swapped for one 44px button that cycles the same three
+   states, which is what lets the header fit on a 320-375px viewport at all. */
+.theme-cycle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-elevated);
+  color: var(--text);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.theme-cycle:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+@media (max-width: 640px) {
+  .theme-switcher {
+    display: none;
+  }
+
+  .theme-cycle {
+    display: inline-flex;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -440,17 +520,20 @@ code {
   background: var(--surface);
   border-top: 1px solid var(--border);
   padding-block: var(--space-7);
+  padding-bottom: calc(var(--space-7) + env(safe-area-inset-bottom));
 }
 
+/* auto-fit, not a fixed 4: renderFooter emits two or three columns depending on
+   whether the page has an app context, and a fixed count left a dead track. This
+   also removes the need for a separate one-column rule at 640px. */
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--space-5);
 }
 
 @media (max-width: 640px) {
   .footer-grid {
-    grid-template-columns: 1fr;
     gap: var(--space-4);
   }
 }
@@ -501,6 +584,7 @@ code {
   justify-content: center;
   gap: var(--space-2);
   padding: 0.6rem 1.1rem;
+  min-height: 44px; /* WCAG 2.5.5 / iOS HIG target size */
   border-radius: 7px;
   font-weight: 600;
   font-size: 0.9375rem;
@@ -533,10 +617,14 @@ code {
   color: var(--brand-primary);
 }
 
+/* --app-accent-solid, not --app-accent: the accent is the app's brand hue and is used
+   for borders and active states where it only needs 3:1, but a solid fill under white
+   text needs 4.5:1 and not every app's accent clears that (money-flow's is 3.77:1).
+   Both fall back to --brand-solid, which is only reachable while the token is unset. */
 .btn-app {
-  background: var(--app-accent, var(--brand-solid));
+  background: var(--app-accent-solid, var(--brand-solid));
   color: #ffffff;
-  border-color: var(--app-accent, var(--brand-solid));
+  border-color: var(--app-accent-solid, var(--brand-solid));
 }
 
 .btn-app:hover {
@@ -565,10 +653,6 @@ code {
   filter: brightness(0.78);
 }
 
-.mailto-cta {
-  /* Contact Support CTA — visually a primary button */
-}
-
 /* --------------------------------------------------------------------------
    Policy / Article
    -------------------------------------------------------------------------- */
@@ -576,6 +660,12 @@ code {
 article.policy {
   max-width: var(--article-max);
   line-height: 1.7;
+}
+
+/* TOC links and deep links target the wrapping section, so the offset must live
+   here — on the h2/h3 alone it never applies to the scroll landing. */
+.policy-section {
+  scroll-margin-top: calc(var(--header-height) + var(--space-3));
 }
 
 article.policy h2 {
@@ -624,6 +714,25 @@ article.policy h3:first-child {
   margin-bottom: var(--space-4);
 }
 
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  list-style: none;
+  padding-left: 0;
+}
+
+.breadcrumbs li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.breadcrumbs-sep {
+  color: var(--border);
+}
+
 .breadcrumbs a {
   color: var(--text-muted);
 }
@@ -632,7 +741,7 @@ article.policy h3:first-child {
   color: var(--brand-primary);
 }
 
-.breadcrumbs .sep {
+.breadcrumbs-sep {
   margin-inline: var(--space-1);
   color: var(--border);
 }
@@ -646,15 +755,6 @@ article.policy h3:first-child {
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: var(--space-3) var(--space-4);
-}
-
-.policy-toc-title {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--text-muted);
-  margin-bottom: var(--space-2);
 }
 
 .policy-toc ol,
@@ -680,21 +780,14 @@ article.policy h3:first-child {
   font-weight: 700;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1120px) {
   .policy-toc {
     position: sticky;
     top: calc(var(--header-height) + var(--space-3));
   }
 }
 
-/* Mobile: collapsible <details> version */
-.policy-toc[data-collapsible] summary {
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.875rem;
-}
-
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .policy-toc summary {
     list-style: none;
   }
@@ -717,9 +810,11 @@ article.policy h3:first-child {
    Cards / Apps
    -------------------------------------------------------------------------- */
 
+/* auto-fit, not auto-fill: with two apps on a wide shell auto-fill keeps four empty
+   260px tracks and leaves the cards undersized and left-huddled. */
 .apps-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: var(--space-4);
 }
 
@@ -756,13 +851,13 @@ article.policy h3:first-child {
 
 .app-card-links {
   display: flex;
+  flex-wrap: wrap; /* a card can carry four buttons; the track is only 260px */
   gap: var(--space-3);
   margin-top: var(--space-2);
   font-size: 0.875rem;
 }
 
-.app-icon,
-.avatar-icon {
+.app-icon {
   width: 44px;
   height: 44px;
   border-radius: 12px;
@@ -834,7 +929,7 @@ article.policy h3:first-child {
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--space-5) var(--space-4);
 }
 
@@ -844,11 +939,6 @@ article.policy h3:first-child {
   gap: var(--space-1);
   padding-top: var(--space-3);
   border-top: 1px solid var(--border);
-}
-
-.feature-item-icon {
-  color: var(--brand-primary);
-  margin-bottom: var(--space-1);
 }
 
 .feature-item-title {
@@ -901,16 +991,10 @@ article.policy h3:first-child {
   transform: rotate(45deg);
 }
 
+/* No max-height clamp: the open state is toggled with the `hidden` attribute, so
+   display flips instantly and the height transition never actually played — all the
+   clamp did was silently cut off any answer taller than 600px, with no scrollbar. */
 .faq-answer {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 200ms ease, opacity 200ms ease;
-  opacity: 0;
-}
-
-.faq-answer:not([hidden]) {
-  max-height: 600px;
-  opacity: 1;
   padding-bottom: var(--space-3);
 }
 
@@ -926,6 +1010,14 @@ article.policy h3:first-child {
   overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: 8px;
+  /* Fades the right edge while there is more table to scroll to, so the clipped
+     columns are discoverable rather than simply invisible on a phone. */
+  background:
+    linear-gradient(to right, var(--surface-elevated) 30%, rgba(0, 0, 0, 0)) left / 24px 100% no-repeat,
+    linear-gradient(to left, var(--surface-elevated) 30%, rgba(0, 0, 0, 0)) right / 24px 100% no-repeat,
+    linear-gradient(to right, rgba(0, 0, 0, .12), rgba(0, 0, 0, 0)) left / 12px 100% no-repeat,
+    linear-gradient(to left, rgba(0, 0, 0, .12), rgba(0, 0, 0, 0)) right / 12px 100% no-repeat;
+  background-attachment: local, local, scroll, scroll;
 }
 
 table.data-table {
@@ -984,7 +1076,6 @@ table.data-table tbody tr:last-child td {
    States (empty / error)
    -------------------------------------------------------------------------- */
 
-.empty-state,
 .error-state {
   text-align: center;
   color: var(--text-muted);
@@ -993,13 +1084,6 @@ table.data-table tbody tr:last-child td {
   flex-direction: column;
   align-items: center;
   gap: var(--space-3);
-}
-
-.empty-state-title,
-.error-state-title {
-  font-weight: 700;
-  color: var(--text);
-  font-size: 1.1rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -1026,6 +1110,20 @@ table.data-table tbody tr:last-child td {
   overflow-wrap: anywhere;
 }
 
+/* Long unbroken tokens in body prose. No current JSON string is long enough to
+   overflow, but policy and support copy accumulates URLs, package names and
+   support addresses, and one of those is enough to push a 320px viewport into
+   horizontal scroll. Cheaper to make it structurally impossible. */
+article.policy p,
+article.policy li,
+.faq-answer p,
+.app-card-desc,
+table.data-table td,
+table.data-table th,
+#support-topics li {
+  overflow-wrap: break-word;
+}
+
 /* --------------------------------------------------------------------------
    Responsive — mobile nav
    -------------------------------------------------------------------------- */
@@ -1050,19 +1148,42 @@ table.data-table tbody tr:last-child td {
     gap: 0;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.45);
     max-height: 0;
     opacity: 0;
     overflow: hidden;
     visibility: hidden;
-    transition: max-height 180ms ease, opacity 180ms ease;
+    transition: max-height 180ms ease, opacity 180ms ease, visibility 180ms;
   }
 
   .nav-menu[data-open="true"] {
-    max-height: 480px;
+    /* Relative to the viewport, not a fixed 480px: a phone in landscape is ~375px
+       tall in total, and a fixed cap put the last nav items out of reach. */
+    max-height: calc(100dvh - var(--header-height));
     opacity: 1;
     visibility: visible;
     overflow-y: auto;
-    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Dims the page behind the open dropdown — without it the menu just abruptly
+     ends mid-page with page content flush against its bottom edge, which reads
+     as a rendering glitch rather than an intentional overlay. */
+  .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: var(--header-height) 0 0 0;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 90;
+    pointer-events: none;
+    transition: opacity 180ms ease, visibility 180ms;
+  }
+
+  .nav-backdrop[data-open="true"] {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .nav-menu .nav-link {
@@ -1077,46 +1198,35 @@ table.data-table tbody tr:last-child td {
   }
 }
 
-/* Logo + hamburger + theme switcher must all fit on one row even on the narrowest
-   supported width (320px) — shrink them rather than let the header overflow. */
-@media (max-width: 480px) {
+/* Header fit on narrow phones. Below 640px the theme switcher is already a single
+   44px button (see .theme-cycle), which frees ~110px; the wordmark just needs to be
+   allowed to scale. Interactive targets are deliberately NOT shrunk here — they are
+   the only controls that exist at this width. */
+@media (max-width: 640px) {
   .site-header .site-shell {
     gap: var(--space-2);
   }
 
-  .site-logo img {
+  .site-logo img,
+  .site-logo svg {
     width: 150px;
     height: 30px;
-  }
-
-  .theme-switcher-btn {
-    padding: 2px 6px;
-    font-size: 0.7rem;
   }
 }
 
 @media (max-width: 360px) {
-  .site-header .site-shell {
-    gap: var(--space-1);
-  }
-
-  .site-logo img {
+  .site-logo img,
+  .site-logo svg {
     width: 120px;
     height: 24px;
   }
-
-  .nav-toggle {
-    width: 32px;
-    height: 32px;
-  }
-
-  .theme-switcher-btn {
-    padding: 1px 4px;
-    font-size: 0.65rem;
-  }
 }
 
-@media (min-width: 1024px) {
+/* Two-column policy layout: article + sticky TOC rail. Activated at 1120px, not
+   1024px — 760 + 40 + 220 needs 1020px of *shell*, and the shell is 64px narrower
+   than the viewport, so at 1024px the article silently compressed to ~700px (i.e.
+   narrower than it renders at 900px) next to a 220px rail. */
+@media (min-width: 1120px) {
   .policy-layout {
     display: grid;
     grid-template-columns: minmax(0, var(--article-max)) 220px;
@@ -1181,10 +1291,20 @@ table.data-table tbody tr:last-child td {
 .policy-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1) var(--space-4);
-  font-size: 0.875rem;
-  color: var(--text-muted);
+  gap: var(--space-2);
   margin-bottom: var(--space-4);
+}
+
+.policy-meta-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-elevated);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .policy-summary {
@@ -1254,6 +1374,7 @@ table.data-table tbody tr:last-child td {
     scroll-behavior: auto !important;
   }
 
+  .site-header,
   .nav-menu,
   .faq-answer,
   .faq-question::after,

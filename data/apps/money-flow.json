@@ -16,8 +16,16 @@
     "website": null
   },
   "branding": {
-    "icon": "assets/images/apps/money-flow/icon.png",
-    "accent": "#059669"
+    "icon": "assets/images/apps/money-flow/icon-192.png",
+    "iconSizes": {
+      "96": "assets/images/apps/money-flow/icon-96.png",
+      "192": "assets/images/apps/money-flow/icon-192.png",
+      "512": "assets/images/apps/money-flow/icon-512.png"
+    },
+    "iconMaster": "assets/images/apps/money-flow/icon.png",
+    "favicon": "assets/images/apps/money-flow/favicon-32.png",
+    "accent": "#059669",
+    "accentSolid": "#047857"
   },
   "metadata": {
     "version": "1.0.0",
@@ -374,7 +382,7 @@
       "Privacy questions",
       "Data backup and restore questions"
     ],
-    "is_active": true
+    "is_active": false
   },
   "faq": [
     {

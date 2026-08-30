@@ -1,0 +1,11 @@
+{
+  "latestVersion": "1.0.0",
+  "latestVersionAndroid": "1.0.0",
+  "latestVersionIos": "1.0.0",
+  "updateUrlAndroid": "https://play.google.com/store/apps/details?id=com.moneyflow.app",
+  "updateUrlIos": "https://apps.apple.com/app/id0000000000",
+  "newFeaturesCount": 3,
+  "bugFixesCount": 10,
+  "packageSizeLabel": "18.6 MB",
+  "reminderIntervalHours": 24
+}
